@@ -1,29 +1,11 @@
-Woof App
-==================================
+0905-25-1463 Gerson David Montufar Zeceña
 
-The Woof app is a list of dog photos with information about them including their name, age, and favorite activity. This app also uses Material Design to create a beautiful app experience for the user.
+Aprendí a diseñar una lista en Android Studio utilizando Jetpack Compose y tarjetas para mostrar información.
 
-Introduction
-------------
 
-This is the starter code for the Woof app project. This project is an opportunity for you to learn Material3 and reinforce the concepts you've learned so far in Android Basics with Compose.
 
-Pre-requisites
---------------
+Comprendí cómo organizar los elementos de la pantalla y utilizar imágenes y textos para mejorar la presentación de la aplicación.
 
-- Rows/Columns
-- Modifiers
-- Scaffold
-- Adding images
-- Button click handlers
-- Functions
-- Classes
-- Lists
-- App architecture
 
-Getting Started
----------------
 
-1. Download the project
-2. Open the project in Android Studio
-3. Run the project
+Aprendí la importancia de los temas claro y oscuro para mejorar la apariencia y la experiencia del usuario.
