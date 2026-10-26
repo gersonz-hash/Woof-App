@@ -34,11 +34,12 @@ import com.example.woof.data.dogs
 import com.example.woof.ui.theme.WoofTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            WoofTheme {
+            WoofTheme(darkTheme = true) {
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
@@ -47,128 +48,145 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun WoofApp() {
-    Scaffold(
-        topBar = {
-            WoofTopAppBar()
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun WoofApp() {
+        Scaffold(
+            topBar = {
+                WoofTopAppBar()
+            }
+        ) { paddingDeLaBarra ->
+
+            LazyColumn(
+                contentPadding = paddingDeLaBarra
+            ) {
+                items(dogs) { dog ->
+                    DogItem(
+                        dog = dog,
+                        modifier = Modifier.padding(
+                            dimensionResource(R.dimen.padding_small)
+                        )
+                    )
+                }
+            }
         }
-    ) { paddingDeLaBarra ->
-        LazyColumn(
-            contentPadding = paddingDeLaBarra
+    }
+
+    @Composable
+    fun DogItem(
+        dog: Dog,
+        modifier: Modifier = Modifier
+    ) {
+        Card(
+            modifier = modifier
         ) {
-            items(dogs) { dog ->
-                DogItem(
-                    dog = dog,
-                    modifier = Modifier.padding(
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
                         dimensionResource(R.dimen.padding_small)
                     )
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun DogItem(
-    dog: Dog,
-    modifier: Modifier = Modifier
-) {
-    Card(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(R.dimen.padding_small))
-        ) {
-            DogIcon(dog.imageResourceId)
-            DogInformation(dog.name, dog.age)
-        }
-    }
-}
-
-@Composable
-fun DogIcon(
-    @DrawableRes dogIcon: Int,
-    modifier: Modifier = Modifier
-) {
-    Image(
-        modifier = modifier
-            .size(dimensionResource(R.dimen.image_size))
-            .padding(dimensionResource(R.dimen.padding_small))
-            .clip(MaterialTheme.shapes.small),
-        contentScale = ContentScale.Crop,
-        painter = painterResource(dogIcon),
-        contentDescription = null
-    )
-}
-
-@Composable
-fun DogInformation(
-    @StringRes dogName: Int,
-    dogAge: Int,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier.padding(
-            dimensionResource(R.dimen.padding_small)
-        )
-    ) {
-        Text(
-            text = stringResource(dogName),
-            style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier.padding(
-                top = dimensionResource(R.dimen.padding_small)
-            )
-        )
-
-        Text(
-            text = stringResource(R.string.years_old, dogAge),
-            style = MaterialTheme.typography.bodyLarge
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun WoofTopAppBar(modifier: Modifier = Modifier) {
-    CenterAlignedTopAppBar(
-        modifier = modifier,
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    modifier = Modifier
-                        .size(dimensionResource(R.dimen.image_size))
-                        .padding(dimensionResource(R.dimen.padding_small)),
-                    painter = painterResource(R.drawable.ic_woof_logo),
-                    contentDescription = null
-                )
+                DogIcon(dog.imageResourceId)
 
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.displayLarge
+                DogInformation(
+                    dogName = dog.name,
+                    dogAge = dog.age
                 )
             }
         }
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun WoofPreview() {
-    WoofTheme(darkTheme = false) {
-        WoofApp()
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun WoofDarkThemePreview() {
-    WoofTheme(darkTheme = true) {
-        WoofApp()
+    @Composable
+    fun DogIcon(
+        @DrawableRes dogIcon: Int,
+        modifier: Modifier = Modifier
+    ) {
+        Image(
+            painter = painterResource(dogIcon),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+                .size(dimensionResource(R.dimen.image_size))
+                .clip(MaterialTheme.shapes.small)
+        )
+    }
+
+    @Composable
+    fun DogInformation(
+        @StringRes dogName: Int,
+        dogAge: Int,
+        modifier: Modifier = Modifier
+    ) {
+        Column(
+            modifier = modifier.padding(
+                dimensionResource(R.dimen.padding_small)
+            )
+        ) {
+            Text(
+                text = stringResource(dogName),
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier.padding(
+                    top = dimensionResource(R.dimen.padding_small)
+                )
+            )
+
+            Text(
+                text = stringResource(
+                    R.string.years_old,
+                    dogAge
+                ),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun WoofTopAppBar(
+        modifier: Modifier = Modifier
+    ) {
+        CenterAlignedTopAppBar(
+            modifier = modifier,
+            title = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(
+                            R.drawable.ic_woof_logo
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(dimensionResource(R.dimen.image_size))
+                            .padding(
+                                dimensionResource(R.dimen.padding_small)
+                            )
+                    )
+
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.displayLarge
+                    )
+                }
+            }
+        )
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun WoofPreview() {
+        WoofTheme(darkTheme = false) {
+            WoofApp()
+        }
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun WoofDarkThemePreview() {
+        WoofTheme(darkTheme = true) {
+            WoofApp()
+        }
     }
 }
