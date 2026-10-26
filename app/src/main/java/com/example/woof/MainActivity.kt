@@ -1,3 +1,4 @@
+
 package com.example.woof
 
 import android.os.Bundle
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            WoofTheme(darkTheme = true) {
+            WoofTheme(darkTheme = false) {
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
@@ -57,7 +58,6 @@ class MainActivity : ComponentActivity() {
                 WoofTopAppBar()
             }
         ) { paddingDeLaBarra ->
-
             LazyColumn(
                 contentPadding = paddingDeLaBarra
             ) {
@@ -86,7 +86,8 @@ class MainActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .padding(
                         dimensionResource(R.dimen.padding_small)
-                    )
+                    ),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 DogIcon(dog.imageResourceId)
 
