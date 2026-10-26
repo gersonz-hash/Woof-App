@@ -1,4 +1,3 @@
-
 package com.example.woof
 
 import android.os.Bundle
@@ -7,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,9 +20,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,11 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.woof.data.Dog
 import com.example.woof.data.dogs
 import com.example.woof.ui.theme.WoofTheme
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.ui.Alignment
-import androidx.compose.material3.Scaffold
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,12 +52,22 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WoofApp() {
-    LazyColumn {
-        items(dogs) { dog ->
-            DogItem(
-                dog = dog,
-                modifier = Modifier.padding(dimensionResource(R.dimen.padding_small))
-            )
+    Scaffold(
+        topBar = {
+            WoofTopAppBar()
+        }
+    ) { paddingDeLaBarra ->
+        LazyColumn(
+            contentPadding = paddingDeLaBarra
+        ) {
+            items(dogs) { dog ->
+                DogItem(
+                    dog = dog,
+                    modifier = Modifier.padding(
+                        dimensionResource(R.dimen.padding_small)
+                    )
+                )
+            }
         }
     }
 }
@@ -97,7 +103,6 @@ fun DogIcon(
         painter = painterResource(dogIcon),
         contentDescription = null
     )
-
 }
 
 @Composable
@@ -114,8 +119,11 @@ fun DogInformation(
         Text(
             text = stringResource(dogName),
             style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_small))
+            modifier = Modifier.padding(
+                top = dimensionResource(R.dimen.padding_small)
+            )
         )
+
         Text(
             text = stringResource(R.string.years_old, dogAge),
             style = MaterialTheme.typography.bodyLarge
@@ -123,22 +131,6 @@ fun DogInformation(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun WoofPreview() {
-    WoofTheme(darkTheme = false) {
-        WoofApp()
-    }
-}
-@Preview
-@Composable
-fun WoofDarkThemePreview() {
-    WoofTheme(darkTheme = true) {
-        WoofApp()
-
-    }
-
-}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WoofTopAppBar(modifier: Modifier = Modifier) {
@@ -155,6 +147,7 @@ fun WoofTopAppBar(modifier: Modifier = Modifier) {
                     painter = painterResource(R.drawable.ic_woof_logo),
                     contentDescription = null
                 )
+
                 Text(
                     text = stringResource(R.string.app_name),
                     style = MaterialTheme.typography.displayLarge
@@ -162,22 +155,20 @@ fun WoofTopAppBar(modifier: Modifier = Modifier) {
             }
         }
     )
-    @Composable
-    fun WoofApp() {
-        Scaffold(
-            topBar = {
-                WoofTopAppBar()
-            }
-        ) { paddingDeLaBarra ->
-            LazyColumn(contentPadding = paddingDeLaBarra) {
-                items(dogs) { dog ->
-                    DogItem(
-                        dog = dog,
-                        modifier = Modifier.padding(dimensionResource(R.dimen.padding_small))
-                    )
-                }
-            }
-        }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WoofPreview() {
+    WoofTheme(darkTheme = false) {
+        WoofApp()
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun WoofDarkThemePreview() {
+    WoofTheme(darkTheme = true) {
+        WoofApp()
+    }
+}
